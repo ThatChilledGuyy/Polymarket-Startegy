@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Polymarket Strategy Playbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-logo">POLY<span>EDGE</span></div>
+      <div class="nav-links">
+        <a href="#strategies">Strategies</a>
+        <a href="#calculator">Calculator</a>
+        <a href="#tools">Tools</a>
+        <a href="#allocation">Portfolio</a>
+      </div>
+      <div class="nav-badge">8 Strategies</div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="grid-lines"></div>
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-tag"><span class="dot"></span> Prediction Market Intelligence</div>
+      <h1 class="hero-title">
+        Trade Polymarket<br/>
+        <span class="title-accent">with real edge.</span>
+      </h1>
+      <p class="hero-sub">8 strategies — 4 proven, 4 uncommon. From cross-platform arbitrage to resolution-lag exploitation. Built for traders who want a systematic advantage.</p>
+      <div class="hero-cta">
+        <a href="#strategies" class="btn btn-primary">Explore Strategies</a>
+        <a href="#calculator" class="btn btn-ghost">Open Calculator</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-val">7.6%</div><div class="stat-label">wallets are profitable</div></div>
+        <div class="stat-div"></div>
+        <div class="stat"><div class="stat-val">$85M</div><div class="stat-label">top trader single election</div></div>
+        <div class="stat-div"></div>
+        <div class="stat"><div class="stat-val">$1B+</div><div class="stat-label">monthly platform volume</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRATEGY SECTION -->
+  <section class="section" id="strategies">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">Strategy Library</div>
+        <h2>The Complete Playbook</h2>
+        <p>Click any strategy to expand the full execution guide.</p>
+      </div>
+
+      <div class="strat-tabs">
+        <button class="strat-tab active" data-filter="all">All 8</button>
+        <button class="strat-tab" data-filter="core">Core 4</button>
+        <button class="strat-tab" data-filter="rare">Uncommon 4</button>
+      </div>
+
+      <div class="strat-grid" id="strat-grid"></div>
+    </div>
+  </section>
+
+  <!-- DETAIL MODAL -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modal-close">✕</button>
+      <div class="modal-content" id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- CALCULATOR SECTION -->
+  <section class="section section-dark" id="calculator">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">Tools</div>
+        <h2>Arbitrage Calculator</h2>
+        <p>Calculate if a cross-platform arb is worth taking after fees.</p>
+      </div>
+
+      <div class="calc-grid">
+        <div class="calc-panel">
+          <h3 class="calc-title">Cross-Platform Arb</h3>
+          <div class="calc-row">
+            <label>YES price (Platform A, e.g. Polymarket)</label>
+            <div class="input-row">
+              <input type="range" id="yes-price" min="1" max="99" value="55" />
+              <span class="input-val" id="yes-val">0.55</span>
+            </div>
+          </div>
+          <div class="calc-row">
+            <label>NO price (Platform B, e.g. Kalshi)</label>
+            <div class="input-row">
+              <input type="range" id="no-price" min="1" max="99" value="38" />
+              <span class="input-val" id="no-val">0.38</span>
+            </div>
+          </div>
+          <div class="calc-row">
+            <label>Capital to deploy (USDC)</label>
+            <div class="input-row">
+              <input type="range" id="capital" min="100" max="10000" step="100" value="1000" />
+              <span class="input-val" id="capital-val">$1,000</span>
+            </div>
+          </div>
+          <div class="calc-row">
+            <label>Kalshi fee (%)</label>
+            <div class="input-row">
+              <input type="range" id="fee" min="0" max="3" step="0.1" value="1.2" />
+              <span class="input-val" id="fee-val">1.2%</span>
+            </div>
+          </div>
+          <div class="calc-result" id="calc-result">
+            <div class="result-row">
+              <span>Combined cost</span><span id="r-combined">—</span>
+            </div>
+            <div class="result-row">
+              <span>Gross spread</span><span id="r-gross">—</span>
+            </div>
+            <div class="result-row">
+              <span>Estimated fees</span><span id="r-fees">—</span>
+            </div>
+            <div class="result-row result-net">
+              <span>Net profit</span><span id="r-net">—</span>
+            </div>
+            <div class="result-verdict" id="r-verdict"></div>
+          </div>
+        </div>
+
+        <div class="calc-panel">
+          <h3 class="calc-title">Bond Strategy Yield</h3>
+          <div class="calc-row">
+            <label>Buy price (e.g. 0.94 for a 94¢ market)</label>
+            <div class="input-row">
+              <input type="range" id="bond-price" min="80" max="99" value="94" />
+              <span class="input-val" id="bond-price-val">0.94</span>
+            </div>
+          </div>
+          <div class="calc-row">
+            <label>Capital deployed (USDC)</label>
+            <div class="input-row">
+              <input type="range" id="bond-capital" min="100" max="20000" step="100" value="2000" />
+              <span class="input-val" id="bond-capital-val">$2,000</span>
+            </div>
+          </div>
+          <div class="calc-row">
+            <label>Days to resolution</label>
+            <div class="input-row">
+              <input type="range" id="bond-days" min="1" max="30" value="5" />
+              <span class="input-val" id="bond-days-val">5 days</span>
+            </div>
+          </div>
+          <div class="calc-row">
+            <label>Parallel positions running</label>
+            <div class="input-row">
+              <input type="range" id="bond-positions" min="1" max="15" value="6" />
+              <span class="input-val" id="bond-positions-val">6</span>
+            </div>
+          </div>
+          <div class="calc-result">
+            <div class="result-row">
+              <span>Profit per trade</span><span id="b-profit">—</span>
+            </div>
+            <div class="result-row">
+              <span>Return per trade</span><span id="b-return">—</span>
+            </div>
+            <div class="result-row">
+              <span>Annualized yield</span><span id="b-annual">—</span>
+            </div>
+            <div class="result-row result-net">
+              <span>Monthly income (all positions)</span><span id="b-monthly">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS SECTION -->
+  <section class="section" id="tools">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">Resources</div>
+        <h2>Essential Tools</h2>
+        <p>Everything you need to execute across all 8 strategies.</p>
+      </div>
+
+      <div class="tools-grid" id="tools-grid"></div>
+    </div>
+  </section>
+
+  <!-- ALLOCATION SECTION -->
+  <section class="section section-dark" id="allocation">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">Portfolio</div>
+        <h2>Recommended Allocation</h2>
+        <p>How to split your bankroll across strategies for maximum risk-adjusted return.</p>
+      </div>
+      <div class="alloc-grid" id="alloc-grid"></div>
+    </div>
+  </section>
+
+  <!-- RISK SECTION -->
+  <section class="section" id="risk">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">Risk Management</div>
+        <h2>Universal Rules</h2>
+        <p>What separates the 7.6% who profit from everyone else.</p>
+      </div>
+      <div class="rules-grid" id="rules-grid"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">POLY<span>EDGE</span></div>
+      <p class="footer-text">For informational purposes only. Prediction market trading involves significant risk. Never trade more than you can afford to lose.</p>
+      <div class="footer-links">
+        <a href="https://polymarket.com" target="_blank">Polymarket</a>
+        <a href="https://kalshi.com" target="_blank">Kalshi</a>
+        <a href="https://eventarb.com" target="_blank">EventArb</a>
+        <a href="https://dune.com" target="_blank">Dune Analytics</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
